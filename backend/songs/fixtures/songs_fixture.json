@@ -14,7 +14,7 @@
         "model": "songs.song",
         "pk": 2,
         "fields": {
-            "title": "Merged in Dreams - Ne Plus Ultra",
+            "title": "Merged in Dreams",
             "artist": "Elder",
             "album": "Innate Passage",
             "release_date": "2022-04-27",

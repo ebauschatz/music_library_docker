@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+    music-library-database:
+        build: ./database
+        image: ebauschatz/music-library-database
+        ports:
+            - 3307:3306
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+        restart: always
+        volumes:
+            - db-data:/var/lib/mysql
+    music-library-backend:
+        build: ./backend
+        image: ebauschatz/music-library-backend
+        ports:
+            - 8000:8000
+        restart: always
+        depends_on:
+            - "music-library-database"
+        command: >
+            sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py loaddata songs_fixture && python manage.py runserver 0.0.0.0:8000"
+    music-library-frontend:
+        build: ./frontend
+        image: ebauschatz/music-library-frontend
+        depends_on:
+            - "music-library-backend"
+        restart: always
+        ports:
+            - 3001:3000
+volumes:
+    db-data:
